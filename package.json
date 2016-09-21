@@ -1,0 +1,29 @@
+{
+  "name": "clicksnake",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "devDependencies": {
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-preset-es2015": "^6.14.0",
+    "babelify": "^7.3.0",
+    "browserify": "^13.1.0",
+    "circle-line-collision": "^1.0.1",
+    "gsap": "^1.19.0",
+    "line-circle-collision": "^1.1.3",
+    "pixi.js": "^4.0.1",
+    "robust-dot-product": "^1.0.0",
+    "vectors": "^0.1.0",
+    "watchify": "^3.7.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "watchify index.js -o bundle.js -t [ babelify --presets [ es2015 ] --plugins [ add-module-exports ] ]",
+    "dev": "python -m SimpleHTTPServer 10100"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "tunajs": "^1.0.0"
+  }
+}
