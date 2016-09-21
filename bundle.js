@@ -28,7 +28,7 @@ document.body.appendChild(renderer.view);
 
 var context = new AudioContext();
 var tuna = new _tunajs2.default(context);
-var compressor = new tuna.Compressor();
+var compressor = new tuna.Compressor({ delayTimeLeft: 100, delayTimeRight: 60 });
 var pingpong = new tuna.PingPongDelay();
 var ballRadius = 20;
 var gravity = .07;
@@ -85,7 +85,7 @@ stage.addChild(bg);
 
 var ball = new _pixi2.default.Graphics();
 stage.addChild(ball);
-ball.direction = { x: 1, y: 1 };
+ball.direction = { x: 1, y: 3 };
 ball.currentPosition = { x: 100, y: 100 };
 
 var wall = new _pixi2.default.Graphics();
@@ -175,8 +175,12 @@ function animate() {
 
                 //play sound
                 var osc = context.createOscillator();
+                var gain = context.createGain();
                 osc.frequency.value = 440;
-                osc.connect(compressor.input);
+                osc.connect(gain);
+                gain.connect(compressor.input);
+                gain.gain.linearRampToValueAtTime(1, context.currentTime + 0.001);
+                gain.gain.linearRampToValueAtTime(0, context.currentTime + 0.04);
                 osc.start(context.currentTime);
                 osc.stop(context.currentTime + 0.05);
             } else {
@@ -203,8 +207,12 @@ function animate() {
         opacity = 1;
         //play sound
         var osc = context.createOscillator();
-        osc.frequency.value = 880;
-        osc.connect(compressor.input);
+        var gain = context.createGain();
+        osc.frequency.value = 660;
+        osc.connect(gain);
+        gain.connect(compressor.input);
+        gain.gain.linearRampToValueAtTime(1, context.currentTime + 0.001);
+        gain.gain.linearRampToValueAtTime(0, context.currentTime + 0.04);
         osc.start(context.currentTime);
         osc.stop(context.currentTime + 0.05);
         switch (wallCollision) {

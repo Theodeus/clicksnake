@@ -9,7 +9,7 @@ document.body.appendChild(renderer.view);
 
 const context = new AudioContext();
 const tuna = new Tuna(context);
-const compressor = new tuna.Compressor();
+const compressor = new tuna.Compressor({delayTimeLeft: 100, delayTimeRight: 60});
 const pingpong = new tuna.PingPongDelay();
 const ballRadius = 20;
 const gravity = .07;
@@ -66,7 +66,7 @@ stage.addChild(bg);
 
 let ball = new PIXI.Graphics();
 stage.addChild(ball);
-ball.direction = {x: 1, y: 1};
+ball.direction = {x: 1, y: 3};
 ball.currentPosition = {x: 100, y: 100};
 
 let wall = new PIXI.Graphics();
@@ -162,8 +162,12 @@ function animate() {
 
                 //play sound
                 let osc = context.createOscillator();
+                let gain = context.createGain();
                 osc.frequency.value = 440;
-                osc.connect(compressor.input);
+                osc.connect(gain);
+                gain.connect(compressor.input);
+                gain.gain.linearRampToValueAtTime(1, context.currentTime + 0.001);
+                gain.gain.linearRampToValueAtTime(0, context.currentTime + 0.04);
                 osc.start(context.currentTime);
                 osc.stop(context.currentTime + 0.05);
             } else {
@@ -190,8 +194,12 @@ function animate() {
         opacity = 1;
         //play sound
         let osc = context.createOscillator();
-        osc.frequency.value = 880;
-        osc.connect(compressor.input);
+        let gain = context.createGain();
+        osc.frequency.value = 660;
+        osc.connect(gain);
+        gain.connect(compressor.input);
+        gain.gain.linearRampToValueAtTime(1, context.currentTime + 0.001);
+        gain.gain.linearRampToValueAtTime(0, context.currentTime + 0.04);
         osc.start(context.currentTime);
         osc.stop(context.currentTime + 0.05);
         switch(wallCollision) {
